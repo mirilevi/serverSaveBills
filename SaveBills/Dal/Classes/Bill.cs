@@ -11,7 +11,10 @@ namespace Dal.Classes
         {
             Produts = new HashSet<Produt>();
         }
+        public Bill(string billText)
+        {
 
+        }
         public int BillId { get; set; }
         public int UserId { get; set; }
         public string StoreName { get; set; }
