@@ -15,6 +15,6 @@ namespace Bal.Interfaces
         //מחיקה
         Task DeleteBill(int id);
         //הצגת רשימת חשבוניות לפי קטגוריה מסוימת 
-        Task<List<Bill>> GetBillsByKategory(int CategoryId);
+        Task<List<Bill>> GetBillsByCategory(int CategoryId);
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SeveBills.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("Bills")]
     [ApiController]
     public class BillsController : ControllerBase
     {
@@ -57,6 +57,15 @@ namespace SeveBills.Controllers
         public async void Delete(int id)
         {
             await billBL.DeleteBill(id);
+        }
+
+        //TODO:
+        [HttpGet("{filePath}")]
+        [Route("GetBillFromFile")]
+        public async Task<Bill> GetBillFromFile(string filePath)
+        {
+            Bill b= new Bill(filePath);
+            return b;
         }
     }
 }

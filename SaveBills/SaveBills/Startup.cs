@@ -38,12 +38,16 @@ namespace SaveBills
             services.AddScoped<IBillBL, BillBL>();
             services.AddScoped<IUserDL, UserDL>();
             services.AddScoped<IuserBL, UserBL>();
+            services.AddScoped<ICategoryBL, CategoryBL>();
+            services.AddScoped<ICategoryDL, CategoryDL>();
 
             services.AddSession();
             services.AddTransient<IBillDL, BillDL>();
             services.AddTransient<IBillBL, BillBL>();
             services.AddTransient<IUserDL, UserDL>();
             services.AddTransient<IuserBL, UserBL>();
+            services.AddTransient<ICategoryBL, CategoryBL>();
+            services.AddTransient<ICategoryDL, CategoryDL>();
 
             services.AddMemoryCache();
         }

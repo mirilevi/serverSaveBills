@@ -30,9 +30,9 @@ namespace Dal.Classes
             return await db.Bills.Where(b=>b.UserId==userId).ToListAsync();
         }
         //return all bills by specific category
-        public async Task<List<Bill>> GetBillsByKategoryAsync(int CategoryId)
+        public async Task<List<Bill>> GetBillsByCategoryAsync(int CategoryId)
         {
-            return await db.Bills.Where(bill => bill.Category == CategoryId).ToListAsync();
+            return await db.Bills.Where(b=>b.BillCategories.Any(c=>c.CategoryId==CategoryId)).ToListAsync();
         }
         //Update Bill
         public async Task UpdateBillAsync(int id,Bill bill)
@@ -41,11 +41,10 @@ namespace Dal.Classes
             if (bToEdit != null)
             {
                 bToEdit.UserId = bill.UserId;
-                bToEdit.ProductName = bill.ProductName;
+                bToEdit.Produts = bill.Produts;
                 bToEdit.StoreName = bill.StoreName;
                 bToEdit.IssueDate = bill.IssueDate;
                 bToEdit.ExpiryDate = bill.ExpiryDate;
-                bToEdit.Category = bill.Category;
                 bToEdit.ImgBiil = bill.ImgBiil;
                 await db.SaveChangesAsync();
             }

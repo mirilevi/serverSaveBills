@@ -9,12 +9,12 @@ namespace Dal.Classes
     {
         public Category()
         {
-            Produts = new HashSet<Produt>();
+            BillCategories = new HashSet<BillCategory>();
         }
 
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
 
-        public virtual ICollection<Produt> Produts { get; set; }
+        public virtual ICollection<BillCategory> BillCategories { get; set; }
     }
 }

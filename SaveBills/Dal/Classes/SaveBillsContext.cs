@@ -18,6 +18,7 @@ namespace Dal.Classes
         }
 
         public virtual DbSet<Bill> Bills { get; set; }
+        public virtual DbSet<BillCategory> BillCategories { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Produt> Produts { get; set; }
         public virtual DbSet<User> Users { get; set; }
@@ -41,13 +42,16 @@ namespace Dal.Classes
 
                 entity.Property(e => e.BillId).HasColumnName("billId");
 
-                entity.Property(e => e.Category).HasColumnName("category");
+                entity.Property(e => e.BillTxt)
+                    .IsRequired()
+                    .HasColumnName("billTxt");
 
                 entity.Property(e => e.ExpiryDate)
                     .HasColumnType("date")
                     .HasColumnName("expiryDate");
 
                 entity.Property(e => e.ImgBiil)
+                    .IsRequired()
                     .HasMaxLength(200)
                     .HasColumnName("imgBiil");
 
@@ -62,6 +66,31 @@ namespace Dal.Classes
                 entity.Property(e => e.TotalSum).HasColumnName("totalSum");
 
                 entity.Property(e => e.UserId).HasColumnName("userId");
+            });
+
+            modelBuilder.Entity<BillCategory>(entity =>
+            {
+                entity.ToTable("bill_categories");
+
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasColumnName("id");
+
+                entity.Property(e => e.BillId).HasColumnName("billId");
+
+                entity.Property(e => e.CategoryId).HasColumnName("categoryId");
+
+                entity.HasOne(d => d.Bill)
+                    .WithMany(p => p.BillCategories)
+                    .HasForeignKey(d => d.BillId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__bill_cate__billI__5DCAEF64");
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.BillCategories)
+                    .HasForeignKey(d => d.CategoryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__bill_cate__categ__5CD6CB2B");
             });
 
             modelBuilder.Entity<Category>(entity =>
@@ -86,7 +115,7 @@ namespace Dal.Classes
 
                 entity.Property(e => e.BillId).HasColumnName("billId");
 
-                entity.Property(e => e.Category).HasColumnName("category");
+                entity.Property(e => e.Count).HasColumnName("count");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -99,12 +128,7 @@ namespace Dal.Classes
                     .WithMany(p => p.Produts)
                     .HasForeignKey(d => d.BillId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__produts__billId__4BAC3F29");
-
-                entity.HasOne(d => d.CategoryNavigation)
-                    .WithMany(p => p.Produts)
-                    .HasForeignKey(d => d.Category)
-                    .HasConstraintName("FK__produts__categor__4AB81AF0");
+                    .HasConstraintName("FK__produts__billId__5629CD9C");
             });
 
             modelBuilder.Entity<User>(entity =>

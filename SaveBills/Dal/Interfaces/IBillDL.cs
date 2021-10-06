@@ -17,7 +17,7 @@ namespace Dal.Interfaces
         //מחיקה
         Task DeleteBillAsync(int id);
         //הצגת רשימת חשבוניות לפי קטגוריה מסוימת 
-        Task<List<Bill>> GetBillsByKategoryAsync(int CategoryId);
+        Task<List<Bill>> GetBillsByCategoryAsync(int CategoryId);
 
     }
 }

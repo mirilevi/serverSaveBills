@@ -29,9 +29,9 @@ namespace Bal.Classes
             return await billDL.GetAllBiilsAsync(userId);
         }
        
-        public async Task<List<Bill>> GetBillsByKategory(int CategoryId)
+        public async Task<List<Bill>> GetBillsByCategory(int CategoryId)
         {
-            return await billDL.GetBillsByKategoryAsync(CategoryId);
+            return await billDL.GetBillsByCategoryAsync(CategoryId);
         }
 
         public async Task UpdateBill(int id, Bill bill)
