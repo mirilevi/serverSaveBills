@@ -8,13 +8,14 @@ namespace Bal.Interfaces
     {
         //הצגת רשימת כל החשבוניות 
         Task<List<Bill>> GetAllBiils(int userId);
+        //הצגת רשימת חשבוניות לפי קטגוריה מסוימת 
+        Task<List<Bill>> GetBillsByCategory(int userId,int CategoryId);
         //הוספה
         Task AddBill(Bill bill);
         //עדכון
         Task UpdateBill(int id,Bill bill);
         //מחיקה
         Task DeleteBill(int id);
-        //הצגת רשימת חשבוניות לפי קטגוריה מסוימת 
-        Task<List<Bill>> GetBillsByCategory(int CategoryId);
+        
     }
 }

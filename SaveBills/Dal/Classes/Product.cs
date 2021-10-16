@@ -6,23 +6,23 @@ using System.Text.RegularExpressions;
 
 namespace Dal.Classes
 {
-    public partial class Produt
+    public partial class Product
     {
        
     public const string PRICE_PATTERN = @"(\d{1,3},)?(\d{1,3})\.\d{1,2}";
     public const string CODE_PATTERN = @"([A-Za-z\d]+-?){4}";
     public const string COUNT_PATTERN = @"[xX]?(כ.)? *\t?[1-9]{1} ";
     public const string ITEM_NAME_PATTERN = @"[א-תA-Za-z\d\\/+-. ]*[א-תA-Za-z]{3}[א-תA-Za-z\d\\/+-. ]*";
-    public Produt()
+    public Product()
         {
                 
         }
-        public Produt(string productTxt)
+        public Product(string productTxt)
         {
-            Regex priceRgx = new Regex(Produt.PRICE_PATTERN, RegexOptions.IgnorePatternWhitespace);
-            Regex codeRgx = new Regex(Produt.CODE_PATTERN, RegexOptions.IgnorePatternWhitespace);
-            Regex countRgx = new Regex(Produt.COUNT_PATTERN);
-            Regex itemNameRgx = new Regex(Produt.ITEM_NAME_PATTERN);
+            Regex priceRgx = new Regex(Product.PRICE_PATTERN, RegexOptions.IgnorePatternWhitespace);
+            Regex codeRgx = new Regex(Product.CODE_PATTERN, RegexOptions.IgnorePatternWhitespace);
+            Regex countRgx = new Regex(Product.COUNT_PATTERN);
+            Regex itemNameRgx = new Regex(Product.ITEM_NAME_PATTERN);
 
             
             var prices = priceRgx.Matches(productTxt);

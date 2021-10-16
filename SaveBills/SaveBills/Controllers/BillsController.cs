@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Bal.Interfaces;
 using Dal.Classes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
 
 namespace SeveBills.Controllers
 {
-    [Route("Bills")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class BillsController : ControllerBase
+    public class BillsController : Controller
     {
 
         IBillBL billBL;
@@ -20,22 +22,20 @@ namespace SeveBills.Controllers
         {
             billBL = _billBL;
         }
-        // GET api/values
-        
-        //[HttpGet]
-        //[Route("GetAllBills")]
 
-        //public async Task<List<Bill>> GetAllBills()
-        //{
-        //    return await billBL.GetAllBiils();
-        //}
-
-        // GET api/values/5
-        [HttpGet("{userId}")]
-        [Route("GetAllBills")]
-        public async Task<List<Bill>> Get(int userId)
+        //GET api/values/5
+        [HttpGet("GetAllBills/{userId:int}")]
+        public async Task<List<Bill>> GetAllBills(int userId)
         {
+
             return await billBL.GetAllBiils(userId);
+        }
+
+        [HttpGet("GetBillsByCategory/{userId:int}/{categoryId:int}")]
+        public async Task<List<Bill>> GetBillsByCategory(int userId, int categoryId)
+        {
+
+            return await billBL.GetBillsByCategory(userId, categoryId);
         }
 
         // POST api/values
@@ -59,12 +59,12 @@ namespace SeveBills.Controllers
             await billBL.DeleteBill(id);
         }
 
-        //TODO:
-        [HttpGet("{filePath}")]
+        ////TODO:
         [Route("GetBillFromFile")]
-        public async Task<Bill> GetBillFromFile(string filePath)
+        public async Task<Bill> GetBillFromFile(string imageName,string token)
         {
-            Bill b= new Bill(filePath);
+            string path = "https://firebasestorage.googleapis.com/v0/b/savebills-66d22.appspot.com/o/bills%2F"+ imageName + "&" + token;
+            Bill b = new Bill(path);
             return b;
         }
     }

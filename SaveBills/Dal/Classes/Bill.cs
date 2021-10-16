@@ -20,7 +20,7 @@ namespace Dal.Classes
         public Bill()
         {
             BillCategories = new HashSet<BillCategory>();
-            Produts = new HashSet<Produt>();
+            Produts = new HashSet<Product>();
         }
 
         public Bill(string filePath):this()
@@ -45,7 +45,7 @@ namespace Dal.Classes
         public string BillTxt { get; set; }
 
         public virtual ICollection<BillCategory> BillCategories { get; set; }
-        public virtual ICollection<Produt> Produts { get; set; }
+        public virtual ICollection<Product> Produts { get; set; }
 
 
         private string SetDates(string billTxt)
@@ -190,18 +190,18 @@ namespace Dal.Classes
             //paterns of items: code, item name, price , count , sum(=count*price)
 
 
-            Regex priceRgx = new Regex(Produt.PRICE_PATTERN, RegexOptions.IgnorePatternWhitespace);
-            Regex codeRgx = new Regex(Produt.CODE_PATTERN, RegexOptions.IgnorePatternWhitespace);
-            Regex countRgx = new Regex(Produt.COUNT_PATTERN);
-            Regex itemNameRgx = new Regex(Produt.ITEM_NAME_PATTERN);
+            Regex priceRgx = new Regex(Product.PRICE_PATTERN, RegexOptions.IgnorePatternWhitespace);
+            Regex codeRgx = new Regex(Product.CODE_PATTERN, RegexOptions.IgnorePatternWhitespace);
+            Regex countRgx = new Regex(Product.COUNT_PATTERN);
+            Regex itemNameRgx = new Regex(Product.ITEM_NAME_PATTERN);
             //remove lines with  discount:
             //TODO: check it
-            Regex discountRgx = new Regex(@"(הנחה)?.*-" + Produt.PRICE_PATTERN, RegexOptions.IgnorePatternWhitespace);
+            Regex discountRgx = new Regex(@"(הנחה)?.*-" + Product.PRICE_PATTERN, RegexOptions.IgnorePatternWhitespace);
             foreach (Match d in discountRgx.Matches(billText))
             {
                 billText = billText.RemoveLinesContains(d.Value);
             }
-            billText = billText.RemoveLinesContains(@"((מע?.מ) | ( סה.?כ ) | ( תשלום ) | ( סכום)){1}[:\s\n\t\r₪]*" + Produt.PRICE_PATTERN);//במעמ \r\n2,564.11 \r
+            billText = billText.RemoveLinesContains(@"((מע?.מ) | ( סה.?כ ) | ( תשלום ) | ( סכום)){1}[:\s\n\t\r₪]*" + Product.PRICE_PATTERN);//במעמ \r\n2,564.11 \r
             //TODO: find why line 2(commented) not deleted !!!
             string[] sentenses = billText.Split('\n');
             var codeMatches = codeRgx.Matches(billText);
@@ -211,8 +211,8 @@ namespace Dal.Classes
             bool[] hasPrice = new bool[sentenses.Length];
             bool[] hasCount = new bool[sentenses.Length];
             bool[] hasItemName = new bool[sentenses.Length];
-            Produt p;
-            this.Produts = new List<Produt>();
+            Product p;
+            this.Produts = new List<Product>();
             for (int i = 0; i < sentenses.Length; i++)
             {
                 hasCode[i] = codeRgx.IsMatch(sentenses[i]);
@@ -227,7 +227,7 @@ namespace Dal.Classes
                 if (hasPrice[i] && hasCode[i] && hasItemName[i] && hasCount[i])
                 {
                     //all details in 1 line
-                    p = new Produt(sentenses[i]);
+                    p = new Product(sentenses[i]);
                     used[i] = true;
                     Produts.Add(p);
                 }
@@ -239,7 +239,7 @@ namespace Dal.Classes
                             && (hasItemName[i] | hasItemName[i - 1]) && (hasCount[i] | hasCount[i]))
                         {
                             //all details in 2 lines
-                            p = new Produt(sentenses[i - 1] + "\n" + sentenses[i]);
+                            p = new Product(sentenses[i - 1] + "\n" + sentenses[i]);
                             used[i] = used[i - 1] = true;
                             Produts.Add(p);
 
@@ -249,7 +249,7 @@ namespace Dal.Classes
                             if (hasPrice[i - 1] && (hasCode[i - 1] | hasItemName[i - 1]) && hasCount[i - 1])
                             {
                                 //3 from 4 details in 1 lines
-                                p = new Produt(sentenses[i - 1]);
+                                p = new Product(sentenses[i - 1]);
                                 used[i - 1] = true;
                                 Produts.Add(p);
                             }
@@ -260,7 +260,7 @@ namespace Dal.Classes
                                     && (hasCount[i - 1] | hasCount[i]))
                                 {
                                     //3 from 4 details in 2 lines
-                                    p = new Produt(sentenses[i - 1] + "\n" + sentenses[i]);
+                                    p = new Product(sentenses[i - 1] + "\n" + sentenses[i]);
                                     used[i - 1] = used[i] = true;
                                     Produts.Add(p);
                                 }
@@ -279,7 +279,7 @@ namespace Dal.Classes
                 {
                     //2 from 4 details in 1 line
                     if(hasPrice[i]&& (hasItemName[i] | hasCode[i])){
-                        p = new Produt(sentenses[i]);
+                        p = new Product(sentenses[i]);
                         used[i] = true;
                         Produts.Add(p);
                     }
@@ -288,7 +288,7 @@ namespace Dal.Classes
                         //2 from 4 details in 2 lines
                         if(i>0 && ! used[i-1] &&(hasPrice[i]|hasPrice[i-1]) && ((hasItemName[i]|hasItemName[i-1]) | (hasCode[i]|hasCode[i-1])))
                         {
-                            p = new Produt(sentenses[i - 1] + "\n" + sentenses[i]);
+                            p = new Product(sentenses[i - 1] + "\n" + sentenses[i]);
                             used[i - 1] = used[i] = true;
                             Produts.Add(p);
                         }

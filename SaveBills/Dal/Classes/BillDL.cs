@@ -13,6 +13,8 @@ namespace Dal.Classes
         {
             db = _db;
         }
+        //TODO
+        //לשנות שיהיה הוספת חשבונית למשתמש מסוים
         public async Task AddBillAsync(Bill bill)
         {
             db.Add(bill);
@@ -30,9 +32,9 @@ namespace Dal.Classes
             return await db.Bills.Where(b=>b.UserId==userId).ToListAsync();
         }
         //return all bills by specific category
-        public async Task<List<Bill>> GetBillsByCategoryAsync(int CategoryId)
+        public async Task<List<Bill>> GetBillsByCategoryAsync(int userId,int CategoryId)
         {
-            return await db.Bills.Where(b=>b.BillCategories.Any(c=>c.CategoryId==CategoryId)).ToListAsync();
+            return await db.Bills.Where(b=> b.UserId == userId && b.BillCategories.Any(c=>c.CategoryId==CategoryId)).ToListAsync();
         }
         //Update Bill
         public async Task UpdateBillAsync(int id,Bill bill)

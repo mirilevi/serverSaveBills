@@ -20,7 +20,7 @@ namespace Dal.Classes
         public virtual DbSet<Bill> Bills { get; set; }
         public virtual DbSet<BillCategory> BillCategories { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<Produt> Produts { get; set; }
+        public virtual DbSet<Product> Produts { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -104,7 +104,7 @@ namespace Dal.Classes
                     .HasColumnName("categoryName");
             });
 
-            modelBuilder.Entity<Produt>(entity =>
+            modelBuilder.Entity<Product>(entity =>
             {
                 entity.ToTable("produts");
 
