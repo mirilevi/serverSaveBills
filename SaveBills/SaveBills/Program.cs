@@ -25,7 +25,7 @@ namespace SaveBills
                     string path1 = @"E:\תכנות\final project\bills\bill examples\PDF\";
                     string path2 = @"E:\תכנות\final project\bills\bill examples\IMG\";
                     //string txt = BillOCR.GetBillTextFromPDF("3.pdf", path1);
-                    Bill b = new Bill(path2 + "9.jpg");
+                    //Bill b = new Bill(path2 + "9.jpg");
                     webBuilder.UseStartup<Startup>();
                 });
     }

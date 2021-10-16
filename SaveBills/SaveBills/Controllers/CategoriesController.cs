@@ -19,7 +19,7 @@ namespace SaveBills.Controllers
             categoryBL = _categoryBL;
         }
         [HttpGet("GetAllCategories")]
-        public async Task<List<Category>> GetAllBills()
+        public async Task<List<Category>> GetAllCategories()
         {
 
             return await categoryBL.GetAllCategoriesAsync();

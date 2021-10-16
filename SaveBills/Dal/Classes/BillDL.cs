@@ -36,6 +36,11 @@ namespace Dal.Classes
         {
             return await db.Bills.Where(b=> b.UserId == userId && b.BillCategories.Any(c=>c.CategoryId==CategoryId)).ToListAsync();
         }
+        //return all bills by storeName
+        public async Task<List<Bill>> GetBillsByStoreName(int userId, string storeName)
+        {
+            return await db.Bills.Where(b => b.UserId == userId && b.StoreName==storeName).ToListAsync();
+        }
         //Update Bill
         public async Task UpdateBillAsync(int id,Bill bill)
         {
