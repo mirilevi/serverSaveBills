@@ -63,9 +63,9 @@ namespace SeveBills.Controllers
         [Route("GetBillFromFile")]
         public async Task<Bill> GetBillFromFile(string imageName,string token)
         {
-            //string path = "https://firebasestorage.googleapis.com/v0/b/savebills-66d22.appspot.com/o/bills%2F"+ imageName + "&" + token;
-            string path = @"E:\תכנות\final project\bills\bill examples\IMG\1.jpg";
-            Bill b = new Bill(path);
+            string path = "https://firebasestorage.googleapis.com/v0/b/savebills-66d22.appspot.com/o/bills%2F" + imageName + "&" + token;
+            imageName = imageName.Substring(0, imageName.IndexOf("?"));//remove the parameters from the imageName
+            Bill b = new Bill(path,imageName);
             return b;
         }
     }

@@ -10,6 +10,7 @@ namespace Dal.Classes
 {
     public partial class Bill
     {
+        
         //private ICategoryDL categoryDL;
         //public Bill(ICategoryDL _categoryDL)
         //{
@@ -23,9 +24,9 @@ namespace Dal.Classes
             Produts = new HashSet<Product>();
         }
 
-        public Bill(string filePath):this()
+        public Bill(string filePath, string fileName):this()
         {
-            string billText = BillOCR.GetBillTextFromPDF(filePath);
+            string billText = BillOCR.GetBillTextFromPDF(filePath,fileName);
             this.BillTxt = billText;
             billText = SetCategories(billText);
             billText = SetDates(billText);
@@ -204,6 +205,7 @@ namespace Dal.Classes
             billText = billText.RemoveLinesContains(@"((מע?.מ) | ( סה.?כ ) | ( תשלום ) | ( סכום)){1}[:\s\n\t\r₪]*" + Product.PRICE_PATTERN);//במעמ \r\n2,564.11 \r
             //TODO: find why line 2(commented) not deleted !!!
             string[] sentenses = billText.Split('\n');
+            //TODO: remove empty lines
             var codeMatches = codeRgx.Matches(billText);
             var priceMatches = priceRgx.Matches(billText);
             var itemsNamesMatches = itemNameRgx.Matches(billText);
