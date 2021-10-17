@@ -12,6 +12,8 @@ namespace Dal.Interfaces
         Task<List<Bill>> GetAllBiilsAsync(int userId);
         //הצגת רשימת חשבוניות לפי קטגוריה מסוימת 
         Task<List<Bill>> GetBillsByCategoryAsync(int userId,int CategoryId);
+        //הצגת רשימת חשבוניות לפי חנות מסוימת 
+        Task<List<Bill>> GetBillsByStoreName(int userId, string storeName);
         //הוספה
         Task AddBillAsync(Bill bill);
         //עדכון

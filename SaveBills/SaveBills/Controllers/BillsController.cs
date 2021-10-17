@@ -38,6 +38,12 @@ namespace SeveBills.Controllers
             return await billBL.GetBillsByCategory(userId, categoryId);
         }
 
+        [HttpGet("GetBillsByStoreName/{userId:int}/{storeName}")]
+        public async Task<List<Bill>> GetBillsByStoreName(int userId, string storeName)
+        {
+
+            return await billBL.GetBillsByStoreName(userId, storeName);
+        }
         // POST api/values
         [HttpPost]
         public async void Post([FromBody] Bill bill)

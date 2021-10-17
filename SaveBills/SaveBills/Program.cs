@@ -22,8 +22,8 @@ namespace SaveBills
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
 
-                    string path1 = @"E:\תכנות\final project\SERVER\bill examples\IMG\";
-                    string path2 = @"E:\תכנות\final project\SERVER\bill examples\PDF\";
+                    string path1 = @"E:\תכנות\final project\bills\bill examples\PDF\";
+                    string path2 = @"E:\תכנות\final project\bills\bill examples\IMG\";
                     //string txt = BillOCR.GetBillTextFromPDF("3.pdf", path1);
                     //Bill b = new Bill(path2 + "2.pdf");
                     webBuilder.UseStartup<Startup>();
