@@ -6,5 +6,6 @@ namespace Dal.Interfaces
     public interface IUserDL
     {
         Task<User> CheckUser(string email, string password);
+        Task<int> AddUser(User user);
     }
 }

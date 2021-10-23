@@ -14,6 +14,20 @@ namespace Dal.Classes
         {
             db = _db;
         }
+
+        public async Task<int> AddUser(User user)
+        {
+            db.Users.Add(user);
+            await db.SaveChangesAsync();
+            //User findUser = await db.Users.FirstOrDefaultAsync(u => u.Email == user.email && u.Password == password);
+            User user1 =await CheckUser(user.Email, user.Password);
+            if (user1!=null)
+            {
+                return user1.UserId;
+            }
+            return -1;
+        }
+
         public async Task<User> CheckUser(string email, string password)
         {
             User findUser = await db.Users.FirstOrDefaultAsync(u => u.Email==email&&u.Password==password);

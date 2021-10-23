@@ -17,7 +17,7 @@ namespace Dal.Classes
         //לשנות שיהיה הוספת חשבונית למשתמש מסוים
         public async Task AddBillAsync(Bill bill)
         {
-            db.Add(bill);
+            db.Bills.Add(bill);
             await db.SaveChangesAsync();
         }
 
@@ -48,7 +48,7 @@ namespace Dal.Classes
             if (bToEdit != null)
             {
                 bToEdit.UserId = bill.UserId;
-                bToEdit.Produts = bill.Produts;
+                bToEdit.Products = bill.Products;
                 bToEdit.StoreName = bill.StoreName;
                 bToEdit.IssueDate = bill.IssueDate;
                 bToEdit.ExpiryDate = bill.ExpiryDate;

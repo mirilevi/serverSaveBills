@@ -71,6 +71,7 @@ namespace SeveBills.Controllers
         {
             string path = "https://firebasestorage.googleapis.com/v0/b/savebills-66d22.appspot.com/o/bills%2F" + imageName + "&" + token;
             imageName = imageName.Substring(0, imageName.IndexOf("?"));//remove the parameters from the imageName
+
             Bill b = new Bill(path,imageName);
             return b;
         }
