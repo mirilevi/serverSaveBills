@@ -26,24 +26,24 @@ namespace SeveBills.Controllers
 
         //GET api/values/5
         [HttpGet("GetAllBills/{userId:int}")]
-        public async Task<List<Bill>> GetAllBills(int userId)
+        public async Task<List<BillDTO>> GetAllBills(int userId)
         {
 
-            return await billBL.GetAllBiils(userId);
+            return (await billBL.GetAllBiils(userId)).convertListToDTO();
         }
 
         [HttpGet("GetBillsByCategory/{userId:int}/{categoryId:int}")]
-        public async Task<List<Bill>> GetBillsByCategory(int userId, int categoryId)
+        public async Task<List<BillDTO>> GetBillsByCategory(int userId, int categoryId)
         {
 
-            return await billBL.GetBillsByCategory(userId, categoryId);
+            return (await billBL.GetBillsByCategory(userId, categoryId)).convertListToDTO();
         }
 
         [HttpGet("GetBillsByStoreName/{userId:int}/{storeName}")]
-        public async Task<List<Bill>> GetBillsByStoreName(int userId, string storeName)
+        public async Task<List<BillDTO>> GetBillsByStoreName(int userId, string storeName)
         {
 
-            return await billBL.GetBillsByStoreName(userId, storeName);
+            return (await billBL.GetBillsByStoreName(userId, storeName)).convertListToDTO();
         }
         // POST api/values
         [HttpPost]
