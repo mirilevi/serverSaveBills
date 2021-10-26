@@ -38,15 +38,15 @@ namespace Dal.Classes
                     if( double.TryParse(p.Value, out price))
                     {
                         max = Math.Max(max, price);
-                        productTxt = productTxt.RemovePattern(p.Value);
+                        productTxt = productTxt.RemovePatternIgnoreWhiteSpaces(p.Value);
                     }
                 }
                 Price = max;
             }
             Name = itemNameRgx.Match(productTxt)?.Value;
-            productTxt = productTxt.RemovePattern(ITEM_NAME_PATTERN);
+            productTxt = productTxt.RemovePatternIgnoreWhiteSpaces(ITEM_NAME_PATTERN);
             Barcode = codeRgx.Match(productTxt)?.Value;
-            productTxt = productTxt.RemovePattern(Barcode);
+            productTxt = productTxt.RemovePatternIgnoreWhiteSpaces(Barcode);
             if (countRgx.IsMatch(productTxt))
             {
                 int co;

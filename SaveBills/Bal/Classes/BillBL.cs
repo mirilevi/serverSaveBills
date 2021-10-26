@@ -26,9 +26,14 @@ namespace Bal.Classes
 
         public async Task<List<Bill>> GetAllBiils(int userId)
         {
-            return await billDL.GetAllBiilsAsync(userId);
+            return await billDL.GetAllBillsAsync(userId);
         }
-       
+
+        public async Task<List<string>> GetAllStoresNames()
+        {
+            return await billDL.GetAllStoresNames();
+        }
+
         public async Task<List<Bill>> GetBillsByCategory(int userId,int CategoryId)
         {
             return await billDL.GetBillsByCategoryAsync(userId, CategoryId);

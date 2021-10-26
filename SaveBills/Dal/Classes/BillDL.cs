@@ -27,10 +27,16 @@ namespace Dal.Classes
             await db.SaveChangesAsync();
         }
         //return all bills
-        public async Task<List<Bill>> GetAllBiilsAsync(int userId)
+        public async Task<List<Bill>> GetAllBillsAsync(int userId)
         {
             return await db.Bills.Where(b=>b.UserId==userId).ToListAsync();
         }
+
+        public async Task<List<string>> GetAllStoresNames()
+        {
+            return await db.Bills.GroupBy(b => b.StoreName).Select(s => s.Key).ToListAsync();
+        }
+
         //return all bills by specific category
         public async Task<List<Bill>> GetBillsByCategoryAsync(int userId,int CategoryId)
         {

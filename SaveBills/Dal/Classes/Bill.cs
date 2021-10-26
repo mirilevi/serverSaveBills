@@ -8,6 +8,7 @@ using Dal.Interfaces;
 
 namespace Dal.Classes
 {
+    
     public partial class Bill
     {
         
@@ -24,13 +25,13 @@ namespace Dal.Classes
             Produts = new HashSet<Product>();
         }
 
-        public Bill(string filePath, string fileName):this()
+        public Bill(string filePath, string fileName, List<Category> categories, List<string> stores):this()
         {
             string billText = BillOCR.GetBillTextFromPDF(filePath,fileName);
             this.BillTxt = billText;
-            billText = SetCategories(billText);
+            SetCategories(billText, categories);
             billText = SetDates(billText);
-            billText = SetStoreName(billText);
+            billText = SetStoreName(billText, stores);
             billText = SetTotalSum(billText);
             billText = SetProducts(billText);
 
@@ -51,7 +52,7 @@ namespace Dal.Classes
 
         private string SetDates(string billTxt)
         {
-            Regex dateRxgs = new Regex(@"(\d{2}/\d{2}/\d{4}\s*\d{2}:\d{2}:\d{2}) (\d{2}\s?/\s?\d{2}\s?/\s?\d{4}\s*\d{2}\s?:\s?\d{2}\s?:\s?\d{2}) | (\d{2}/\d{2}/\d{4}) | (\d{2}\s/\s\d{2}\s/\s\d{4}) ", RegexOptions.IgnorePatternWhitespace);
+            Regex dateRxgs = new Regex("("+RegexHelpFunctions.DATE_PATTERN+") | ( "+RegexHelpFunctions.DATE_PATTERN + RegexHelpFunctions.DATE_TIME_PATTERN +")", RegexOptions.IgnorePatternWhitespace);
             MatchCollection datesTexts = dateRxgs.Matches(billTxt);
             List<DateTime> dates;
             DateTime dHelp;
@@ -90,10 +91,7 @@ namespace Dal.Classes
 
                             dates.Add(dHelp);
                         }
-                        int ind = billTxt.IndexOf(d.Value);
-                        int begin = billTxt.LastIndexOf('\n', ind);
-                        int end = billTxt.IndexOf('\n', ind);
-                        billTxt = billTxt.Substring(0, begin) + billTxt.Substring(end, billTxt.Length - end);
+                        billTxt = billTxt.RemoveLinesContains(d.Value);
                     }
 
                 }
@@ -102,25 +100,47 @@ namespace Dal.Classes
             return billTxt;
         }
 
-        private string SetStoreName(string billText)
+        private string SetStoreName(string billText, List<string> allStores)
         {
-            //remove the concat details from the bill 
-            billText = billText.RemoveLinesContains(@"((טלפון) | (פקס) | (טל) | (נייד) [\r\s:-]*\d{2,3}-?\d*)| (מייל)");
-            string billNum = @"(חשבונית\s*מס'?\s*/\s*) | ('מספר\s*(קבלה)|(חשבונית)) ";
-            string privateCompanyOrNot = @"((ח[\. ']?פ[\. '] ?) | (ע[\. ']?מ[\. '] ?) | (ע[\. ']?פ[\. '] ?))[\s\.:]*\d{4}";
-            Regex billNumOrCompanyNumRgx = new Regex("(" + billNum + ") | (" + privateCompanyOrNot + ")", RegexOptions.IgnorePatternWhitespace);
-            Match match = billNumOrCompanyNumRgx.Match(billText);
-            if (match != null && match.Success)
+            bool found = false;
+            foreach(var store in allStores)
             {
-                //the store name and details is before the bill number
-                int lineBegin = billText.LastIndexOf('\n', match.Index);
-                
-                int lineEnd = billText.IndexOf('\n', match.Index);
-                //if there is match and the match is less then 4 lines
-                if (lineBegin > 0 && (new Regex("\n").Matches(billText.Substring(0, lineBegin)))?.Count <= 4)
+                if(billText.IndexOf(store)!= -1)
                 {
-                    this.StoreName = billText.Substring(0, lineBegin);
-                    billText = billText.Substring(lineEnd);
+                    StoreName = store;
+                    found = true;
+                }
+            }
+            //remove the concat details from the bill 
+            billText = billText.RemoveLinesContains(RegexHelpFunctions.CONCAT_DETAILS_PATTERN);
+            billText = billText.RemoveEmptyLines();
+            Regex billNumOrCompanyNumRgx = new Regex("(" + RegexHelpFunctions.BILL_NUM_PATTERN + ") | (" + RegexHelpFunctions.PRIVATE_OR_PUBLIC_CAMPANY_PATTERN + ")", RegexOptions.IgnorePatternWhitespace);
+            if(!found)
+            {
+                Match match = billNumOrCompanyNumRgx.Match(billText);
+                if (match != null && match.Success)
+                {
+                    //the store name and details is before the bill number
+                    int lineBegin = billText.LastIndexOf('\n', match.Index);
+
+                    int lineEnd = billText.IndexOf('\n', match.Index);
+                    //if there is match and the match is less then 4 lines
+                    if (lineBegin > 0 && (new Regex("\n").Matches(billText.Substring(0, lineBegin)))?.Count <= 4)
+                    {
+                        this.StoreName = billText.Substring(0, lineBegin);
+                        billText = billText.Substring(lineEnd);
+                    }
+                    else
+                    {
+                        //the first line is the store name
+                        int firstLineEndInd = billText.IndexOf("\n");
+                        if (firstLineEndInd != -1)
+                        {
+                            StoreName = billText.Substring(0, firstLineEndInd);
+                            billText = billText.Substring(firstLineEndInd + 1);
+                        }
+                    }
+
                 }
                 else
                 {
@@ -134,18 +154,8 @@ namespace Dal.Classes
                 }
 
             }
-            else
-            {
-                //the first line is the store name
-                int firstLineEndInd = billText.IndexOf("\n");
-                if (firstLineEndInd != -1)
-                {
-                    StoreName = billText.Substring(0, firstLineEndInd);
-                    billText = billText.Substring(firstLineEndInd + 1);
-                }
-            }
-            billText = billText.RemoveLinesContains(privateCompanyOrNot);
-            billText = billText.RemoveLinesContains(billNum);
+            billText = billText.RemoveLinesContains(RegexHelpFunctions.PRIVATE_OR_PUBLIC_CAMPANY_PATTERN);
+            billText = billText.RemoveLinesContains(RegexHelpFunctions.BILL_NUM_PATTERN);
             return billText;
         }
 
@@ -197,12 +207,10 @@ namespace Dal.Classes
             Regex itemNameRgx = new Regex(Product.ITEM_NAME_PATTERN);
             //remove lines with  discount:
             //TODO: check it
-            Regex discountRgx = new Regex(@"(הנחה)?.*-" + Product.PRICE_PATTERN, RegexOptions.IgnorePatternWhitespace);
-            foreach (Match d in discountRgx.Matches(billText))
-            {
-                billText = billText.RemoveLinesContains(d.Value);
-            }
-            billText = billText.RemoveLinesContains(@"((מע?.מ) | ( סה.?כ ) | ( תשלום ) | ( סכום)){1}[:\s\n\t\r₪]*" + Product.PRICE_PATTERN);//במעמ \r\n2,564.11 \r
+            billText = billText.RemoveLinesContains(RegexHelpFunctions.DISCOUND_PATTERN);
+            billText = billText.RemoveLinesContains(RegexHelpFunctions.SUM_FOR_PAY_PATTERN);
+            billText = billText.RemoveLinesContains(RegexHelpFunctions.WORDS_TO_REMOVE_PATTERN);
+            billText = billText.RemoveEmptyLines();
             //TODO: find why line 2(commented) not deleted !!!
             string[] sentenses = billText.Split('\n');
             //TODO: remove empty lines
@@ -303,12 +311,15 @@ namespace Dal.Classes
 
         }
 
-        private string SetCategories(string billText)
+        private void SetCategories(string billText, List<Category> allCategories)
         {
-            //TODO:
-            //search if the bill contains some of the categories
-            //list<category> categories = 
-            return billText;
+            foreach (var c in allCategories)
+            {
+                if (billText.IndexOf(c.CategoryName) != -1)
+                {
+                    BillCategories.Add(new BillCategory { Bill=this,Category=c}); 
+                }
+            }
         }
     }
 }

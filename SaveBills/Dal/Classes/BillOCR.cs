@@ -28,6 +28,9 @@ namespace Dal.Classes
                         //read ocr file
                         using (var Input = new OcrInput(fileName)) 
                         {
+
+                            //Input.DeNoise(); // fixes digital noise and poor scanning
+                            Input.Deskew();
                             var Result = Ocr.Read(Input);
                             File.Delete(fileName);
                             return Result.Text;
@@ -38,8 +41,6 @@ namespace Dal.Classes
                 {
                     throw e1;
                 }
-                    //Input.DeNoise(); // fixes digital noise and poor scanning
-                    //Input.Deskew();
             }
             catch (Exception e2)
             {

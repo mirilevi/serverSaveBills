@@ -9,11 +9,13 @@ namespace Dal.Interfaces
     public interface IBillDL
     {
         //הצגת רשימת כל החשבוניות 
-        Task<List<Bill>> GetAllBiilsAsync(int userId);
+        Task<List<Bill>> GetAllBillsAsync(int userId);
         //הצגת רשימת חשבוניות לפי קטגוריה מסוימת 
         Task<List<Bill>> GetBillsByCategoryAsync(int userId,int CategoryId);
         //הצגת רשימת חשבוניות לפי חנות מסוימת 
         Task<List<Bill>> GetBillsByStoreName(int userId, string storeName);
+
+        Task<List<string>> GetAllStoresNames();
         //הוספה
         Task AddBillAsync(Bill bill);
         //עדכון

@@ -7,8 +7,7 @@ using Bal.Interfaces;
 using Dal.Classes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-
+using SaveBills.Models;
 
 namespace SeveBills.Controllers
 {
@@ -18,9 +17,11 @@ namespace SeveBills.Controllers
     {
 
         IBillBL billBL;
-        public BillsController(IBillBL _billBL)
+        ICategoryBL categoryBL;
+        public BillsController(IBillBL _billBL, ICategoryBL _categoryBL)
         {
             billBL = _billBL;
+            categoryBL = _categoryBL;
         }
 
         //GET api/values/5
@@ -67,12 +68,14 @@ namespace SeveBills.Controllers
 
         ////TODO:
         [Route("GetBillFromFile")]
-        public async Task<Bill> GetBillFromFile(string imageName,string token)
+        public async Task<BillDTO> GetBillFromFile(string imageName,string token)
         {
             string path = "https://firebasestorage.googleapis.com/v0/b/savebills-66d22.appspot.com/o/bills%2F" + imageName + "&" + token;
             imageName = imageName.Substring(0, imageName.IndexOf("?"));//remove the parameters from the imageName
-            Bill b = new Bill(path,imageName);
-            return b;
+            List<Category> categories = await categoryBL.GetAllCategoriesAsync();
+            List<string> stores = await billBL.GetAllStoresNames();
+            Bill b = new Bill(path ,imageName, categories,stores); 
+            return b.ConvertToDTO();
         }
     }
 }

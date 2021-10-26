@@ -12,6 +12,7 @@ namespace Bal.Interfaces
         Task<List<Bill>> GetBillsByCategory(int userId,int CategoryId);
         //הצגת רשימת חשבוניות לפי חנות מסוימת 
         Task<List<Bill>> GetBillsByStoreName(int userId, string storeName);
+        Task<List<string>> GetAllStoresNames();
         //הוספה
         Task AddBill(Bill bill);
         //עדכון
