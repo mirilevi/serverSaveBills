@@ -15,6 +15,12 @@ namespace Bal.Classes
         {
             userDL = _userDL;
         }
+
+        public async Task<int> AddUser(User user)
+        {
+           return await userDL.AddUser(user);
+        }
+
         public async Task<User> CheckUser(string email, string password)
         {
             return await userDL.CheckUser(email, password);

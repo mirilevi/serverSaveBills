@@ -125,7 +125,7 @@ namespace Dal.Classes
                 entity.Property(e => e.Price).HasColumnName("price");
 
                 entity.HasOne(d => d.Bill)
-                    .WithMany(p => p.Produts)
+                    .WithMany(p => p.Products)
                     .HasForeignKey(d => d.BillId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__produts__billId__5629CD9C");

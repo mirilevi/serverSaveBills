@@ -22,7 +22,7 @@ namespace Dal.Classes
         public Bill()
         {
             BillCategories = new HashSet<BillCategory>();
-            Produts = new HashSet<Product>();
+            Products = new HashSet<Product>();
         }
 
         public Bill(string filePath, string fileName, List<Category> categories, List<string> stores):this()
@@ -47,7 +47,7 @@ namespace Dal.Classes
         public string BillTxt { get; set; }
 
         public virtual ICollection<BillCategory> BillCategories { get; set; }
-        public virtual ICollection<Product> Produts { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
 
 
         private string SetDates(string billTxt)
@@ -222,7 +222,7 @@ namespace Dal.Classes
             bool[] hasCount = new bool[sentenses.Length];
             bool[] hasItemName = new bool[sentenses.Length];
             Product p;
-            this.Produts = new List<Product>();
+            this.Products = new List<Product>();
             for (int i = 0; i < sentenses.Length; i++)
             {
                 hasCode[i] = codeRgx.IsMatch(sentenses[i]);
@@ -239,7 +239,7 @@ namespace Dal.Classes
                     //all details in 1 line
                     p = new Product(sentenses[i]);
                     used[i] = true;
-                    Produts.Add(p);
+                    Products.Add(p);
                 }
                 else
                 {
@@ -251,7 +251,7 @@ namespace Dal.Classes
                             //all details in 2 lines
                             p = new Product(sentenses[i - 1] + "\n" + sentenses[i]);
                             used[i] = used[i - 1] = true;
-                            Produts.Add(p);
+                            Products.Add(p);
 
                         }
                         else
@@ -261,7 +261,7 @@ namespace Dal.Classes
                                 //3 from 4 details in 1 lines
                                 p = new Product(sentenses[i - 1]);
                                 used[i - 1] = true;
-                                Produts.Add(p);
+                                Products.Add(p);
                             }
                             else
                             {
@@ -272,7 +272,7 @@ namespace Dal.Classes
                                     //3 from 4 details in 2 lines
                                     p = new Product(sentenses[i - 1] + "\n" + sentenses[i]);
                                     used[i - 1] = used[i] = true;
-                                    Produts.Add(p);
+                                    Products.Add(p);
                                 }
                             }
                         }
@@ -283,7 +283,7 @@ namespace Dal.Classes
 
             //if no products have been found:
             //trying find products in low confidense levels
-            if(Produts.Count == 0)
+            if(Products.Count == 0)
             {
                 for(int i = 0; i < 0; i++)
                 {
@@ -291,7 +291,7 @@ namespace Dal.Classes
                     if(hasPrice[i]&& (hasItemName[i] | hasCode[i])){
                         p = new Product(sentenses[i]);
                         used[i] = true;
-                        Produts.Add(p);
+                        Products.Add(p);
                     }
                     else
                     {
@@ -300,7 +300,7 @@ namespace Dal.Classes
                         {
                             p = new Product(sentenses[i - 1] + "\n" + sentenses[i]);
                             used[i - 1] = used[i] = true;
-                            Produts.Add(p);
+                            Products.Add(p);
                         }
                     }
                 }

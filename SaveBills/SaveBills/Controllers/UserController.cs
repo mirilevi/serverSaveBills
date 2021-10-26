@@ -26,5 +26,11 @@ namespace SaveBills.Controllers
         {
             return await userBL.CheckUser(email, password);
         }
+        [HttpPost]
+        public async Task<int> Post([FromBody] User user)
+        {
+            return await userBL.AddUser(user);
+        }
+       
     }
 }
