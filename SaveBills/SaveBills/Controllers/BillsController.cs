@@ -47,16 +47,16 @@ namespace SeveBills.Controllers
         }
         // POST api/values
         [HttpPost]
-        public async void Post([FromBody] Bill bill)
+        public async void Post([FromBody] BillDTO bill)
         {
-            await billBL.AddBill(bill);
+            await billBL.AddBill(bill.ConvertFromDTO());
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public async void Put(int id, [FromBody] Bill bill)
+        public async void Put(int id, [FromBody] BillDTO bill)
         {
-            await billBL.UpdateBill(id,bill);
+            await billBL.UpdateBill(id,bill.ConvertFromDTO());
         }
 
         // DELETE api/values/5

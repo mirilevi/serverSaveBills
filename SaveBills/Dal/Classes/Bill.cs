@@ -11,14 +11,6 @@ namespace Dal.Classes
     
     public partial class Bill
     {
-        
-        //private ICategoryDL categoryDL;
-        //public Bill(ICategoryDL _categoryDL)
-        //{
-        //    this.categoryDL = _categoryDL;
-        //    BillCategories = new HashSet<BillCategory>();
-        //    Produts = new HashSet<Produt>();
-        //}
         public Bill()
         {
             BillCategories = new HashSet<BillCategory>();
@@ -27,6 +19,7 @@ namespace Dal.Classes
 
         public Bill(string filePath, string fileName, List<Category> categories, List<string> stores):this()
         {
+            ImgBiil = filePath;
             string billText = BillOCR.GetBillTextFromPDF(filePath,fileName);
             this.BillTxt = billText;
             SetCategories(billText, categories);
@@ -109,6 +102,7 @@ namespace Dal.Classes
                 {
                     StoreName = store;
                     found = true;
+                    break;
                 }
             }
             //remove the concat details from the bill 
@@ -177,6 +171,7 @@ namespace Dal.Classes
             }
             else
             {
+                //TODO: המספר המקסימלי יכול להיות גם לא הסכום ששולם \ עודף שרשום בקבלה
                 double temp;
                 //if there is no result or the corvertion failed
                 List<double> allPrices = new List<double>();

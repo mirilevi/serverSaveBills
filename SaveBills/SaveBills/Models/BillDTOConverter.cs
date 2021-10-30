@@ -17,7 +17,7 @@ namespace SaveBills.Models
                 ExpiryDate = b.ExpiryDate,
                 ImgBiil = b.ImgBiil,
                 IssueDate = b.IssueDate,
-                Produts = b.Produts,
+                Produts = b.Products,
                 StoreName = b.StoreName,
                 TotalSum = b.TotalSum,
                 UserId = b.UserId
@@ -33,7 +33,7 @@ namespace SaveBills.Models
                 ExpiryDate = b.ExpiryDate,
                 ImgBiil = b.ImgBiil,
                 IssueDate = b.IssueDate,
-                Produts = b.Produts,
+                Products = b.Produts,
                 StoreName = b.StoreName,
                 TotalSum = b.TotalSum,
                 UserId = b.UserId
