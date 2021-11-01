@@ -7,7 +7,7 @@ using Bal.Interfaces;
 using Dal.Classes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SaveBills.Models;
+using Dal.Models;
 
 namespace SeveBills.Controllers
 {
@@ -47,14 +47,14 @@ namespace SeveBills.Controllers
         }
         // POST api/values
         [HttpPost]
-        public async void Post([FromBody] Bill bill)
+        public async Task Post([FromBody] Bill bill)
         {
             await billBL.AddBill(bill);
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public async void Put(int id, [FromBody] Bill bill)
+        public async Task Put(int id, [FromBody] Bill bill)
         {
             await billBL.UpdateBill(id,bill);
         }

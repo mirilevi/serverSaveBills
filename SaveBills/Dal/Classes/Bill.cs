@@ -34,7 +34,7 @@ namespace Dal.Classes
             billText = SetStoreName(billText, stores);
             billText = SetTotalSum(billText);
             billText = SetProducts(billText);
-
+            ImgBill = filePath;
         }
 
         public int BillId { get; set; }
@@ -43,7 +43,7 @@ namespace Dal.Classes
         public DateTime? IssueDate { get; set; }
         public DateTime? ExpiryDate { get; set; }
         public double? TotalSum { get; set; }
-        public string ImgBiil { get; set; }
+        public string ImgBill { get; set; }
         public string BillTxt { get; set; }
 
         public virtual ICollection<BillCategory> BillCategories { get; set; }

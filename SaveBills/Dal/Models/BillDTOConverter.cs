@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SaveBills.Models
+namespace Dal.Models
 {
     public static class BillDTOConverter
     {
@@ -15,9 +15,9 @@ namespace SaveBills.Models
                 BillId = b.BillId,
                 BillTxt = b.BillTxt,
                 ExpiryDate = b.ExpiryDate,
-                ImgBiil = b.ImgBiil,
+                ImgBill = b.ImgBill,
                 IssueDate = b.IssueDate,
-                Produts = b.Produts,
+                Products = b.Products,
                 StoreName = b.StoreName,
                 TotalSum = b.TotalSum,
                 UserId = b.UserId
@@ -31,9 +31,9 @@ namespace SaveBills.Models
                 BillId = b.BillId,
                 BillTxt = b.BillTxt,
                 ExpiryDate = b.ExpiryDate,
-                ImgBiil = b.ImgBiil,
+                ImgBill = b.ImgBill,
                 IssueDate = b.IssueDate,
-                Produts = b.Produts,
+                Products = b.Products,
                 StoreName = b.StoreName,
                 TotalSum = b.TotalSum,
                 UserId = b.UserId

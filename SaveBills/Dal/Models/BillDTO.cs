@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SaveBills.Models
+namespace Dal.Models
 {
     public class BillDTO
     {
@@ -14,10 +14,10 @@ namespace SaveBills.Models
         public DateTime? IssueDate { get; set; }
         public DateTime? ExpiryDate { get; set; }
         public double? TotalSum { get; set; }
-        public string ImgBiil { get; set; }
+        public string ImgBill { get; set; }
         public string BillTxt { get; set; }
 
         public virtual ICollection<Category> BillCategories { get; set; }
-        public virtual ICollection<Product> Produts { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

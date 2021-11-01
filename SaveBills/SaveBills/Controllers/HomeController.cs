@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Dal.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SaveBills.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

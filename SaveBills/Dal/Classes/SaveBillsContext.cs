@@ -50,10 +50,9 @@ namespace Dal.Classes
                     .HasColumnType("date")
                     .HasColumnName("expiryDate");
 
-                entity.Property(e => e.ImgBiil)
+                entity.Property(e => e.ImgBill)
                     .IsRequired()
-                    .HasMaxLength(200)
-                    .HasColumnName("imgBiil");
+                    .HasColumnName("imgBill");
 
                 entity.Property(e => e.IssueDate)
                     .HasColumnType("date")
