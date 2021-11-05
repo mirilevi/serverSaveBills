@@ -24,5 +24,10 @@ namespace Bal.Classes
         {
            return await categoryDL.GetAllCategoriesAsync();
         }
+
+        public async Task<List<Category>> GetAllCategoriesUserAsync(int userId)
+        {
+            return await categoryDL.GetAllCategoriesUserAsync(userId);
+        }
     }
 }

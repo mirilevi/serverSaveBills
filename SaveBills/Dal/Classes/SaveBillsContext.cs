@@ -20,7 +20,8 @@ namespace Dal.Classes
         public virtual DbSet<Bill> Bills { get; set; }
         public virtual DbSet<BillCategory> BillCategories { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<Product> Produts { get; set; }
+        public virtual DbSet<ExpiredBill> ExpiredBills { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -71,9 +72,7 @@ namespace Dal.Classes
             {
                 entity.ToTable("bill_categories");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.BillId).HasColumnName("billId");
 
@@ -83,13 +82,13 @@ namespace Dal.Classes
                     .WithMany(p => p.BillCategories)
                     .HasForeignKey(d => d.BillId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__bill_cate__billI__5DCAEF64");
+                    .HasConstraintName("FK__bill_cate__billI__70DDC3D8");
 
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.BillCategories)
                     .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__bill_cate__categ__5CD6CB2B");
+                    .HasConstraintName("FK__bill_cate__categ__6FE99F9F");
             });
 
             modelBuilder.Entity<Category>(entity =>
@@ -103,9 +102,20 @@ namespace Dal.Classes
                     .HasColumnName("categoryName");
             });
 
+            modelBuilder.Entity<ExpiredBill>(entity =>
+            {
+                entity.Property(e => e.BillId).HasColumnName("billId");
+
+                entity.HasOne(d => d.Bill)
+                    .WithMany(p => p.ExpiredBills)
+                    .HasForeignKey(d => d.BillId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ExpiredBi__billI__73BA3083");
+            });
+
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.ToTable("produts");
+                entity.ToTable("products");
 
                 entity.Property(e => e.Barcode)
                     .IsRequired()
@@ -127,7 +137,7 @@ namespace Dal.Classes
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.BillId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__produts__billId__5629CD9C");
+                    .HasConstraintName("FK__products__billId__619B8048");
             });
 
             modelBuilder.Entity<User>(entity =>

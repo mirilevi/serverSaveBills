@@ -30,7 +30,7 @@ namespace Dal.Models
                 BillCategories = b.BillCategories.Select(c => new BillCategory() { Category =c , BillId = b.BillId}).ToList(),
                 BillId = b.BillId,
                 BillTxt = b.BillTxt,
-                ExpiryDate = b.ExpiryDate,
+                ExpiryDate =(DateTime) b.ExpiryDate,
                 ImgBill = b.ImgBill,
                 IssueDate = b.IssueDate,
                 Products = b.Products,

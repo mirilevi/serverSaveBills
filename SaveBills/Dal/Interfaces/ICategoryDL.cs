@@ -1,7 +1,5 @@
 ﻿using Dal.Classes;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Dal.Interfaces
@@ -11,7 +9,8 @@ namespace Dal.Interfaces
         Task<List<Category>> GetAllCategoriesAsync();
         //הוספה
         Task AddCategoryAsync(Bill b,Category c);
-        
-        
+
+        Task<List<Category>> GetAllCategoriesUserAsync(int userId);
+
     }
 }

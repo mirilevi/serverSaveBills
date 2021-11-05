@@ -40,6 +40,8 @@ namespace SaveBills
             services.AddScoped<IuserBL, UserBL>();
             services.AddScoped<ICategoryBL, CategoryBL>();
             services.AddScoped<ICategoryDL, CategoryDL>();
+            services.AddScoped<IExpireBillsBL, ExpireBillsBL>();
+            services.AddScoped<IExpireBillsDL, ExpireBillsDL>();
 
             services.AddSession();
             services.AddTransient<IBillDL, BillDL>();
@@ -48,8 +50,15 @@ namespace SaveBills
             services.AddTransient<IuserBL, UserBL>();
             services.AddTransient<ICategoryBL, CategoryBL>();
             services.AddTransient<ICategoryDL, CategoryDL>();
+            services.AddTransient<IExpireBillsBL, ExpireBillsBL>();
+            services.AddTransient<IExpireBillsDL, ExpireBillsDL>();
 
             services.AddMemoryCache();
+
+            services.AddControllersWithViews()
+            .AddNewtonsoftJson(options =>
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
