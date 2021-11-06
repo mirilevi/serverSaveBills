@@ -33,7 +33,7 @@ namespace Dal.Models
                 ExpiryDate =(DateTime) b.ExpiryDate,
                 ImgBill = b.ImgBill,
                 IssueDate = b.IssueDate,
-                Produts = b.Produts,
+                Products = b.Products,
                 StoreName = b.StoreName,
                 TotalSum = b.TotalSum,
                 UserId = b.UserId

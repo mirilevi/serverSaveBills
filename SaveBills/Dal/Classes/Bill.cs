@@ -20,7 +20,7 @@ namespace Dal.Classes
 
         public Bill(string filePath, string fileName, List<Category> categories, List<string> stores):this()
         {
-            ImgBiil = filePath;
+            ImgBill = filePath;
             string billText = BillOCR.GetBillTextFromPDF(filePath,fileName);
             this.BillTxt = billText;
             SetCategories(billText, categories);
@@ -86,6 +86,10 @@ namespace Dal.Classes
                             }
 
                             dates.Add(dHelp);
+                        }
+                        if(ExpiryDate == null)
+                        {
+                            ExpiryDate = DateTime.Now.AddMonths(3);
                         }
                         billTxt = billTxt.RemoveLinesContains(d.Value);
                     }
