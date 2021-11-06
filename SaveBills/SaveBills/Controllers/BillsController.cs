@@ -47,7 +47,7 @@ namespace SeveBills.Controllers
         }
         // POST api/values
         [HttpPost]
-        public async void Post([FromBody] BillDTO bill)
+        public async Task Post([FromBody] BillDTO bill)
         {
             await billBL.AddBill(bill.ConvertFromDTO());
         }
