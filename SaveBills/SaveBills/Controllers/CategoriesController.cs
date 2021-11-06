@@ -21,8 +21,12 @@ namespace SaveBills.Controllers
         [HttpGet("GetAllCategories")]
         public async Task<List<Category>> GetAllCategories()
         {
-
             return await categoryBL.GetAllCategoriesAsync();
+        }
+        [HttpGet("GetAllCategoriesUser/{userId:int}")]
+        public async Task<List<Category>> GetAllCategoriesUser(int userId)
+        {
+            return await categoryBL.GetAllCategoriesUserAsync(userId);
         }
     }
 }

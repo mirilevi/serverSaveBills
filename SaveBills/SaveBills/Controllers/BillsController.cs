@@ -7,7 +7,7 @@ using Bal.Interfaces;
 using Dal.Classes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SaveBills.Models;
+using Dal.Models;
 
 namespace SeveBills.Controllers
 {
@@ -54,7 +54,7 @@ namespace SeveBills.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public async void Put(int id, [FromBody] BillDTO bill)
+        public async void Put(int id, [FromBody] Bill bill)
         {
             await billBL.UpdateBill(id,bill.ConvertFromDTO());
         }

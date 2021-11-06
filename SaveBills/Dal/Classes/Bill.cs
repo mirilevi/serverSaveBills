@@ -14,6 +14,7 @@ namespace Dal.Classes
         public Bill()
         {
             BillCategories = new HashSet<BillCategory>();
+            ExpiredBills = new HashSet<ExpiredBill>();
             Products = new HashSet<Product>();
         }
 
@@ -27,19 +28,21 @@ namespace Dal.Classes
             billText = SetStoreName(billText, stores);
             billText = SetTotalSum(billText);
             billText = SetProducts(billText);
-
+            ImgBill = filePath;
         }
 
         public int BillId { get; set; }
         public int UserId { get; set; }
         public string StoreName { get; set; }
         public DateTime? IssueDate { get; set; }
-        public DateTime? ExpiryDate { get; set; }
+        public DateTime ExpiryDate { get; set; }
         public double? TotalSum { get; set; }
-        public string ImgBiil { get; set; }
+        public string ImgBill { get; set; }
         public string BillTxt { get; set; }
 
         public virtual ICollection<BillCategory> BillCategories { get; set; }
+        public virtual ICollection<ExpiredBill> ExpiredBills { get; set; }
+
         public virtual ICollection<Product> Products { get; set; }
 
 
@@ -72,7 +75,7 @@ namespace Dal.Classes
                                     }
                                     else//IssueDate is bigger
                                     {
-                                        ExpiryDate = IssueDate;
+                                        ExpiryDate = (DateTime)IssueDate;
                                         IssueDate = dHelp;
                                     }
                                 }
