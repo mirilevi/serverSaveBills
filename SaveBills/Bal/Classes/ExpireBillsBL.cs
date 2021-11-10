@@ -17,6 +17,12 @@ namespace Bal.Classes
         {
             expireBillsDL = _expireBillsDL;
         }
+
+        public async Task DeleteExpireAsync(int id)
+        {
+            await expireBillsDL.DeleteExpireAsync(id);
+        }
+
         public Task<List<Bill>> GetAllExpireBillsAsync(int userId)
         {
             return expireBillsDL.GetAllExpireBillsAsync(userId);

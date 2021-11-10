@@ -9,6 +9,6 @@ namespace Dal.Interfaces
     public interface IExpireBillsDL
     {
         Task<List<Bill>> GetAllExpireBillsAsync(int userId);
-
+        Task DeleteExpireAsync(int id);
     }
 }

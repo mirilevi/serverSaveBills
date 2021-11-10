@@ -27,7 +27,7 @@ namespace Dal.Models
         {
             return new Bill()
             {
-                BillCategories = b.BillCategories.Select(c => new BillCategory() { Category =c , BillId = b.BillId}).ToList(),
+                BillCategories = b.BillCategories.Select(c => new BillCategory() {  BillId = b.BillId,CategoryId=c.CategoryId}).ToList(),
                 BillId = b.BillId,
                 BillTxt = b.BillTxt,
                 ExpiryDate =(DateTime) b.ExpiryDate,

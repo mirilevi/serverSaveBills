@@ -1,12 +1,14 @@
-using Dal.Classes;
+锘縰sing Dal.Classes;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using TaskScheduler = Dal.Classes.TaskScheduler;
 
 namespace SaveBills
 {
@@ -22,12 +24,18 @@ namespace SaveBills
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
 
-                    string path1 = @"E:\疱鶿final project\bills\bill examples\PDF\";
-                    string path2 = @"E:\疱鶿final project\bills\bill examples\IMG\";
+                    string path1 = @"E:\转讻谞讜转\final project\bills\bill examples\PDF\";
+                    string path2 = @"E:\转讻谞讜转\final project\bills\bill examples\IMG\";
                     //string txt = BillOCR.GetBillTextFromPDF("3.pdf", path1);
                     //Bill b = new Bill(path2 + "2.pdf");
                     //ExpireBillsDL.addBillsToExpireBills();
                     webBuilder.UseStartup<Startup>();
+
+                    TaskScheduler.Instance.ScheduleTask(0, 0, 24,
+                    async () =>
+                        {
+                            await ExpireBillsDL.addBillsToExpireBills();
+                        });
                 });
     }
 }

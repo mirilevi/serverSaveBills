@@ -47,7 +47,7 @@ namespace SeveBills.Controllers
         }
         // POST api/values
         [HttpPost]
-        public async void Post([FromBody] BillDTO bill)
+        public async Task Post([FromBody] BillDTO bill)
         {
             await billBL.AddBill(bill.ConvertFromDTO());
         }
@@ -61,7 +61,7 @@ namespace SeveBills.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public async void Delete(int id)
+        public async Task Delete(int id)
         {
             await billBL.DeleteBill(id);
         }

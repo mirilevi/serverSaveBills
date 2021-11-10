@@ -60,7 +60,7 @@ namespace Dal.Classes
                     .HasColumnName("issueDate");
 
                 entity.Property(e => e.StoreName)
-                    .HasMaxLength(20)
+                    .HasMaxLength(200)
                     .HasColumnName("storeName");
 
                 entity.Property(e => e.TotalSum).HasColumnName("totalSum");
@@ -128,7 +128,7 @@ namespace Dal.Classes
 
                 entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasMaxLength(50)
+                    .HasMaxLength(200)
                     .HasColumnName("name");
 
                 entity.Property(e => e.Price).HasColumnName("price");

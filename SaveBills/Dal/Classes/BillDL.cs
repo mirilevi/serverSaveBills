@@ -1,5 +1,6 @@
 ﻿using Dal.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,8 +17,15 @@ namespace Dal.Classes
         //TODO
         public async Task AddBillAsync(Bill bill)
         {
-            db.Bills.Add(bill);
-            await db.SaveChangesAsync();
+            try
+            {
+                db.Bills.Add(bill);
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task DeleteBillAsync(int id)
@@ -28,7 +36,11 @@ namespace Dal.Classes
         //return all bills
         public async Task<List<Bill>> GetAllBillsAsync(int userId)
         {
-            return await db.Bills.Where(b=>b.UserId==userId).ToListAsync();
+            return await db.Bills.Where(b => b.UserId == userId).Include("Products").Include(bill => bill.BillCategories)
+    .ThenInclude(BillCategories => BillCategories.Category).ToListAsync();
+    //        var userBills = await db.Bills.Where(b => b.UserId == userId).Include(bill => bill.BillCategories)
+    //.ThenInclude(BillCategories => BillCategories.Category).ToListAsync();
+
         }
 
         public async Task<List<string>> GetAllStoresNames()
@@ -37,19 +49,19 @@ namespace Dal.Classes
         }
 
         //return all bills by specific category
-        public async Task<List<Bill>> GetBillsByCategoryAsync(int userId,int CategoryId)
+        public async Task<List<Bill>> GetBillsByCategoryAsync(int userId, int CategoryId)
         {
-            return await db.Bills.Where(b=> b.UserId == userId && b.BillCategories.Any(c=>c.CategoryId==CategoryId)).ToListAsync();
+            return await db.Bills.Where(b => b.UserId == userId && b.BillCategories.Any(c => c.CategoryId == CategoryId)).ToListAsync();
         }
         //return all bills by storeName
         public async Task<List<Bill>> GetBillsByStoreName(int userId, string storeName)
         {
-            return await db.Bills.Where(b => b.UserId == userId && b.StoreName==storeName).ToListAsync();
+            return await db.Bills.Where(b => b.UserId == userId && b.StoreName == storeName).ToListAsync();
         }
         //Update Bill
-        public async Task UpdateBillAsync(int id,Bill bill)
+        public async Task UpdateBillAsync(int id, Bill bill)
         {
-            Bill bToEdit = await db.Bills.FirstOrDefaultAsync(b =>b.BillId  == id);
+            Bill bToEdit = await db.Bills.FirstOrDefaultAsync(b => b.BillId == id);
             if (bToEdit != null)
             {
                 bToEdit.UserId = bill.UserId;

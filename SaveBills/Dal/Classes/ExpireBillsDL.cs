@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Mail;
+using System.Net.Mime;
+using System.IO;
 
 namespace Dal.Classes
 {
@@ -21,6 +23,11 @@ namespace Dal.Classes
         {
             return await db.ExpiredBills.Select(e => e.Bill).Where(b => b.UserId == userId).ToListAsync();
         }
+        public async Task DeleteExpireAsync(int id)
+        {
+            db.ExpiredBills.Remove(db.ExpiredBills.FirstOrDefault(b => b.BillId == id));
+            await db.SaveChangesAsync();
+        }
         public static async Task addBillsToExpireBills()
         {
             SaveBillsContext db2 = new SaveBillsContext();
@@ -33,19 +40,6 @@ namespace Dal.Classes
                     expireBills.Add(bill);
                 }
             }
-            //DateTime dateTime = new DateTime(2021, 11, 11);
-            //int t = ((int)(dateTime - currentTime).TotalDays);
-            //try
-            //{
-            //     expireBills =  db2.Bills.Where(b => ((int)(b.ExpiryDate - currentTime).TotalDays)==7).ToList();
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    throw;
-            //}
-            
-
             if (expireBills.Count > 0)
             {
                 List<ExpiredBill> expiredBillToAdd = new List<ExpiredBill>();
@@ -55,7 +49,9 @@ namespace Dal.Classes
                     MailMessage mail = new MailMessage() {
                         From = new MailAddress("savebillsforyou@gmail.com"),
                         Subject = "your bill expired soon",
+                        Body="<font>if you want to keep this bill for more time you can do it in the site</font>"
                     };
+                    mail.IsBodyHtml = true;
                     mail.To.Add(db2.Users.Where( u=>u.UserId==bill.UserId).Select(u=>u.Email).FirstOrDefault());
                     SmtpClient SmtpServer = new SmtpClient() {
                         Port=587,
@@ -65,6 +61,11 @@ namespace Dal.Classes
                         Credentials = new System.Net.NetworkCredential("savebillsforyou@gmail.com", "save1bills"),
                         EnableSsl = true,
                     };
+                    var tempFileName = bill.ImgBill.Substring(0, bill.ImgBill.IndexOf("?")).Remove(0, 82);
+                    WebClient webClient = new WebClient();
+                    webClient.DownloadFile(bill.ImgBill, tempFileName);
+                    mail.Attachments.Add(new Attachment(tempFileName));
+
                     SmtpServer.Send(mail);
                 }
                 await db2.ExpiredBills.AddRangeAsync(expiredBillToAdd);

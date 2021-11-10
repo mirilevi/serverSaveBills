@@ -23,6 +23,12 @@ namespace SaveBills.Controllers
         {
             return await expireBillsBL.GetAllExpireBillsAsync(userId);
         }
+        // DELETE api/values/5
+        [HttpDelete("{id}")]
+        public async Task Delete(int id)
+        {
+            await expireBillsBL.DeleteExpireAsync(id);
+        }
 
     }
 }
