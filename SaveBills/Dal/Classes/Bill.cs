@@ -87,15 +87,21 @@ namespace Dal.Classes
 
                             dates.Add(dHelp);
                         }
-                        if(ExpiryDate == null)
-                        {
-                            ExpiryDate = DateTime.Now.AddMonths(3);
-                        }
+                       
                         billTxt = billTxt.RemoveLinesContains(d.Value);
                     }
 
                 }
 
+            }
+            if(IssueDate == DateTime.MinValue)
+            {
+                IssueDate = DateTime.Now;//defalt value
+            }
+            if (ExpiryDate == DateTime.MinValue)
+            {
+                ExpiryDate = DateTime.Now;
+                ExpiryDate.AddMonths(6); //default value - next 6 monthes
             }
             return billTxt;
         }
@@ -103,6 +109,7 @@ namespace Dal.Classes
         private string SetStoreName(string billText, List<string> allStores)
         {
             bool found = false;
+            //find store that already have been used in the past - search existing stores in the DB.
             foreach(var store in allStores)
             {
                 if(billText.IndexOf(store)!= -1)

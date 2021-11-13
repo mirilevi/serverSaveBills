@@ -70,12 +70,12 @@ namespace SeveBills.Controllers
         [Route("GetBillFromFile")]
         public async Task<BillDTO> GetBillFromFile(string imageName,string token)
         {
-            string path = "https://firebasestorage.googleapis.com/v0/b/savebills-66d22.appspot.com/o/bills%2F" + imageName + "&" + token;
+           string path = "https://firebasestorage.googleapis.com/v0/b/savebills-66d22.appspot.com/o/bills%2F" + imageName + "&" + token;
             imageName = imageName.Substring(0, imageName.IndexOf("?"));//remove the parameters from the imageName
             List<Category> categories = await categoryBL.GetAllCategoriesAsync();
             List<string> stores = await billBL.GetAllStoresNames();
             Bill b = new Bill(path ,imageName, categories,stores); 
-            return b.ConvertToDTO();
+             return b.ConvertToDTO();
         }
     }
 }
