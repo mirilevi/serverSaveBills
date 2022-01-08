@@ -32,7 +32,6 @@ namespace Dal.Classes
                             using (var Input = new OcrInput(fileName)) 
                             {
 
-                                //Input.DeNoise(); // fixes digital noise and poor scanning
                                 Input.Deskew();
                                 var Result = Ocr.Read(Input);
                                 File.Delete(fileName);
