@@ -22,6 +22,12 @@ namespace Dal.Classes
             await db.SaveChangesAsync();
         }
 
+        public async Task AddNewCategoryAsync(string category)
+        {
+            db.Categories.Add(new Category() { CategoryName = category });
+            await db.SaveChangesAsync();
+        }
+
         public async Task<List<Category>> GetAllCategoriesAsync()
         {
             return await db.Categories.ToListAsync();

@@ -20,6 +20,12 @@ namespace Bal.Classes
             await categoryDL.AddCategoryAsync(b, c);
         }
 
+        public async Task AddNewCategoryAsync(string category)
+        {
+            //TODO: check if it's a unique category
+            await categoryDL.AddNewCategoryAsync(category);
+        }
+
         public async Task<List<Category>> GetAllCategoriesAsync()
         {
            return await categoryDL.GetAllCategoriesAsync();
