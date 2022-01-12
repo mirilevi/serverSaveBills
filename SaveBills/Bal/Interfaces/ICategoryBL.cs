@@ -11,7 +11,7 @@ namespace Bal.Interfaces
         Task<List<Category>> GetAllCategoriesAsync();
         Task AddCategoryAsync(Bill b, Category c);
 
-        Task AddNewCategoryAsync(string category);
+        Task AddNewCategoryAsync(string category, int userId);
         Task<List<Category>> GetAllCategoriesUserAsync(int userId);
 
     }

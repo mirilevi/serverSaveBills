@@ -12,7 +12,7 @@ namespace Dal.Interfaces
 
         Task<List<Category>> GetAllCategoriesUserAsync(int userId);
 
-        Task AddNewCategoryAsync(string category);
+        Task AddNewCategoryAsync(string category,int userId);
 
     }
 }

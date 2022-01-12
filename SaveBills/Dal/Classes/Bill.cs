@@ -185,7 +185,6 @@ namespace Dal.Classes
             }
             else
             {
-                //TODO: המספר המקסימלי יכול להיות גם לא הסכום ששולם \ עודף שרשום בקבלה
                 double temp;
                 //if there is no result or the corvertion failed
                 List<double> allPrices = new List<double>();
@@ -215,7 +214,6 @@ namespace Dal.Classes
             Regex countRgx = new Regex(Product.COUNT_PATTERN);
             Regex itemNameRgx = new Regex(Product.ITEM_NAME_PATTERN);
             //remove lines with  discount:
-            //TODO: check it
             billText = billText.RemoveLinesContains(RegexHelpFunctions.DISCOUND_PATTERN);
             billText = billText.RemoveLinesContains(RegexHelpFunctions.SUM_FOR_PAY_PATTERN);
             billText = billText.RemoveLinesContains(RegexHelpFunctions.WORDS_TO_REMOVE_PATTERN);

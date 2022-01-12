@@ -66,7 +66,6 @@ namespace SeveBills.Controllers
             await billBL.DeleteBill(id);
         }
 
-        ////TODO:
         [Route("GetBillFromFile")]
         public async Task<BillDTO> GetBillFromFile(string imageName,string token)
         {

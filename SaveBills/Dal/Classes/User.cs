@@ -12,5 +12,6 @@ namespace Dal.Classes
         public string UserLastName { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
+        public virtual ICollection<UserCategory> UserCategories { get; set; }
     }
 }
