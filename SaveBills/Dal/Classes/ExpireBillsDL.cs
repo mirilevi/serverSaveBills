@@ -70,23 +70,6 @@ namespace Dal.Classes
                 }
                 await db2.ExpiredBills.AddRangeAsync(expiredBillToAdd);
                 await db2.SaveChangesAsync();
-             
-                /*MailMessage mail = new MailMessage();
-                mail.From = new MailAddress("savebillsforyou@gmail.com");
-                mail.To.Add("levi9741683@gmail.com");
-                mail.Subject = "Test Mail";
-                mail.Body = "This is for testing SMTP mail from GMAIL";
-
-                SmtpClient SmtpServer = new SmtpClient();
-                SmtpServer.Port = 587;
-                SmtpServer.Host = "smtp.gmail.com";
-                SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
-                SmtpServer.UseDefaultCredentials = false;
-                SmtpServer.Credentials = new System.Net.NetworkCredential("savebillsforyou@gmail.com", "save1bills");
-                SmtpServer.EnableSsl = true;
-
-                SmtpServer.Send(mail);*/
-               
             }
         }
 
