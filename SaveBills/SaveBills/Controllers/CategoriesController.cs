@@ -29,8 +29,9 @@ namespace SaveBills.Controllers
             return await categoryBL.GetAllCategoriesUserAsync(userId);
         }
         //TODO:!!{:?}
-        [HttpPost("AddNewCategory/{category:}")]
-        public async Task<List<Category>> AddCategory(string category)
+        //[HttpPost("AddNewCategory/{category}")]
+        [HttpPost]
+        public async Task<List<Category>> AddCategory([FromBody] string category)
         {
              await categoryBL.AddNewCategoryAsync(category);
             return await categoryBL.GetAllCategoriesAsync();
