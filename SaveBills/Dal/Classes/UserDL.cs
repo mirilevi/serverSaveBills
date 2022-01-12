@@ -17,6 +17,10 @@ namespace Dal.Classes
 
         public async Task<int> AddUser(User user)
         {
+            if (db.Users.CountAsync(u => u.Email == user.Email).Result != 0)
+            {
+                return -1;
+            }
             db.Users.Add(user);
             await db.SaveChangesAsync();
             //User findUser = await db.Users.FirstOrDefaultAsync(u => u.Email == user.email && u.Password == password);
