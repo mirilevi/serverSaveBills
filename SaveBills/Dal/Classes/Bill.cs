@@ -112,7 +112,7 @@ namespace Dal.Classes
             //find store that already have been used in the past - search existing stores in the DB.
             foreach(var store in allStores)
             {
-                if(billText.IndexOf(store)!= -1)
+                if(store != "" && billText.ToLower().IndexOf(store.ToLower())!= -1)
                 {
                     StoreName = store;
                     found = true;

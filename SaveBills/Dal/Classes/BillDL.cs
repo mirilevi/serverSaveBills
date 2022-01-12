@@ -37,9 +37,7 @@ namespace Dal.Classes
         public async Task<List<Bill>> GetAllBillsAsync(int userId)
         {
             return await db.Bills.Where(b => b.UserId == userId).Include("Products").Include(bill => bill.BillCategories)
-    .ThenInclude(BillCategories => BillCategories.Category).ToListAsync();
-    //        var userBills = await db.Bills.Where(b => b.UserId == userId).Include(bill => bill.BillCategories)
-    //.ThenInclude(BillCategories => BillCategories.Category).ToListAsync();
+        .ThenInclude(BillCategories => BillCategories.Category).ToListAsync();
 
         }
 

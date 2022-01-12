@@ -33,7 +33,7 @@ namespace SaveBills.Controllers
         public async Task<List<Category>> AddNewCategory(int userId,[FromBody] Category category)
         {
             await categoryBL.AddNewCategoryAsync(category.CategoryName,userId);
-            return await categoryBL.GetAllCategoriesAsync();
+            return await categoryBL.GetAllCategoriesUserAsync(userId);
         }
     }
 }
